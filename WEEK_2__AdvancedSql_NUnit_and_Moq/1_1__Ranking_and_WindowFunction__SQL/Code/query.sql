@@ -1,0 +1,78 @@
+/*
+==============================
+	Author - Utsav Saxena
+    Date - 27-06-2025
+==============================
+*/
+
+
+SELECT * FROM 
+    (
+    SELECT 
+        RANK() OVER(PARTITION BY p.Category ORDER BY p.price DESC) AS [Rank window function],
+        DENSE_RANK() OVER(PARTITION BY p.Category ORDER BY p.price DESC) AS [Dense Rank function],
+        ROW_NUMBER() OVER(PARTITION BY p.Category ORDER BY p.price DESC) AS [Row Number function],
+        p.ProductName,
+        p.Category,
+        p.price
+    FROM Products AS p
+    ) 
+AS ProductsTable WHERE [Row Number function]<=3;
+
+
+/*
+
+DATABASE CREATION
+
+CREATE DATABASE OnlineRetailStore;
+GO
+
+
+USE OnlineRetailStore;
+GO
+
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName NVARCHAR(100),
+    Category NVARCHAR(100),
+    Price DECIMAL(10, 2)
+);
+
+
+INSERT INTO Products (ProductID, ProductName, Category, Price) VALUES
+-- Electronics
+(1, 'Apple iPhone 14', 'Electronics', 749.99),
+(2, 'Samsung Galaxy S23', 'Electronics', 749.99),
+(3, 'Google Pixel 8', 'Electronics', 699.00),
+(4, 'OnePlus 12', 'Electronics', 679.00),
+(5, 'Sony Xperia 5', 'Electronics', 749.00),
+
+-- Computers
+(6, 'Dell XPS 13', 'Computers', 1199.00),
+(7, 'HP Spectre x360', 'Computers', 1099.50),
+(8, 'MacBook Air M2', 'Computers', 1249.00),
+(9, 'Lenovo ThinkPad X1', 'Computers', 1249.00),
+(10, 'ASUS ZenBook 14', 'Computers', 999.99),
+
+-- Audio
+(11, 'Sony WH-1000XM5', 'Audio', 349.99),
+(12, 'Bose QuietComfort 45', 'Audio', 329.95),
+(13, 'JBL Live 660NC', 'Audio', 199.99),
+(14, 'Apple AirPods Pro', 'Audio', 249.00),
+(15, 'Sennheiser Momentum 4', 'Audio', 379.99),
+
+-- Accessories
+(16, 'Logitech MX Master 3S', 'Accessories', 99.99),
+(17, 'Apple Magic Mouse', 'Accessories', 79.00),
+(18, 'Microsoft Surface Pen', 'Accessories', 99.00),
+(19, 'Dell USB-C Dock', 'Accessories', 159.99),
+(20, 'HP Wireless Keyboard', 'Accessories', 49.99),
+
+-- Cameras
+(21, 'Canon EOS R50', 'Cameras', 999.99),
+(22, 'Nikon Z50', 'Cameras', 1099.00),
+(23, 'Sony Alpha a6400', 'Cameras', 899.99),
+(24, 'Fujifilm X-S10', 'Cameras', 999.00),
+(25, 'Panasonic Lumix G100', 'Cameras', 749.00);
+*/
